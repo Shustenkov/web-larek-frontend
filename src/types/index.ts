@@ -7,43 +7,32 @@ export interface IProduct {
   title: string;
 }
 
-export interface ICart {
-  items: IProduct[];
-  totalPrice: number;
-  paymethod: TPaymethod;
-  shippingAddress: string;
+export interface IOrderForm {
+  payment: TPayment;
+  address: string;
+}
+
+export interface IContactsForm {
   email: string;
   phone: string;
-  payStatus: boolean;
 }
 
-export interface IProductData {
-  products: IProduct[];
+export interface IOrder extends IOrderForm, IContactsForm {
+  total: number;
+  items: string[];
+}
+
+export interface IAppState {
+  catalog: IProduct[];
   preview: string | null;
-  addProduct(product: IProduct): void;
-  removeProduct(id: string, payload: Function | null): void;
-  updateProduct(product: IProduct, payload: Function | null): void;
-  getProduct(id: string): IProduct;
+  order: IOrder | null;
 }
 
-export interface ICartData {
-  items: IProduct[];
-  totalPrice: number;
-  addItem(item: IProduct): void;
-  removeItem(id: string, payload: Function | null): void;
-  getItem(id: string): IProduct;
-  getPurchaseInfo(): TPurchaseInfo;
-  setPurchaseInfo(data: TPurchaseInfo): void;
-  getClientInfo(): TClientInfo;
-  setClientInfo(data: TClientInfo): void;
-  checkPurchaseValidation(data: Record<keyof TPurchaseInfo, string>): boolean;
-  checkClientValidation(data: Record<keyof TClientInfo, string>): boolean;
+export type TPayment = 'card' | 'cash';
+
+export type FormErrors = Partial<Record<keyof IOrder, string>>
+
+export interface IOrderResult {
+  id: string;
+  total: number;
 }
-
-export type TPaymethod = 'online' | 'reception';
-
-export type TPurchaseInfo = Pick<ICart, 'paymethod' | 'shippingAddress'>;
-
-export type TClientInfo = Pick<ICart, 'email' | 'phone'>;
-
-

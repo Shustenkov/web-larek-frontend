@@ -281,8 +281,12 @@ interface IModalData {
 Передаёт родительскому классу `Component` следующие настройки:
 ```ts
 interface ICard {
-  title: string;
-  price: string;
+	title: string;
+	price: number;
+	image?: string;
+	category?: string;
+	description?: string;
+	itemIndex?: number;
 }
 ```
 
@@ -308,7 +312,6 @@ interface ICardActions {
 Геттеры:
 - `get id(): string` - возвращает дата-атрибут id корневого DOM-элемента или пустую строку
 - `get title(): string` - возвращает текст заголовка или пустую строку
-- `get price(): string` - возвращает текст цены или пустую строку
 
 #### Класс `CatalogItem`
 Отвечает за отображение карточки товара в каталоге. Расширяет класс `Card`.
@@ -333,12 +336,15 @@ interface ICardActions {
 Конструктор:
 - `constructor(container: HTMLElement, actions?: ICardActions)` - принимает корневой DOM-элемент и опциональный объект, реализующий интерфейс `ICardActions`
 
+Методы:
+- `setButtonProperties(text: string, actions?: ICardActions)` - устанавливает текст кнопки и опционально меняет её функционал
+
 Поля:
 - `_description: HTMLElement` - описание карточки
 
 Сеттеры:
+- `set valid(value: boolean)` - переключает активность кнопки карточки
 - `set description(value: string)` - устанавливает текст описания
-- `set buttonProperties(text: string, actions?: ICardActions)` - устанавливает текст кнопки и опционально меняет её функционал
 
 #### Класс `CartItem`
 Отвечает за отображение карточки в корзине. Расширяет класс `Card`.
@@ -368,9 +374,10 @@ interface ICartView {
 - `events: EventEmitter` - экземпляр класса `EventEmitter`
 - `_list: HTMLElement` - контейнер для DOM-элементов товаров
 - `_total: HTMLElement` - суммарная стоимость заказа
-- `_button: HTMLElement` - кнопка оформления заказа
+- `_button: HTMLButtonElement` - кнопка оформления заказа
 
 Сеттеры:
+- `set valid(value: boolean)` - переключает активность кнопки оформления заказа
 - `set items(items: HTMLElement[])` - устанавливает товары в корзине. Если товаров нет, то кнопка оформления отключается.
 - `set total(total: number)` - устанавливает текст цены
 
@@ -433,7 +440,7 @@ interface IContactsForm {
 Отвечает за отображение успешного результата заказа. Устанавливает слушатель на кнопку. Передаёт базовому классу `Component` следующие настройки:
 ```ts
 interface ISuccess {
-  total: number;
+  description: number;
 }
 ```
 
