@@ -269,6 +269,8 @@ interface IModalData {
 - `events: IEvents` - брокер событий
 
 Методы:
+- `_toggleModal(state: boolean = true)` - переключает класс активности модального окна
+- `_handleEscape = (evt: KeyboardEvent)` - обработчик закрытия модального окна по кнопке
 - `open()` - открыть модальное окно
 - `close()` - закрыть модальное окно
 - `render(data: IModalData): HTMLElement` - открыть окно и вернуть корневой DOM-элемент
@@ -416,6 +418,13 @@ interface IOrderForm {
 ```
 
 - `constructor(container: HTMLFormElement, events: IEvents)` - Конструктор принимает корневой DOM-элемент и экземпляр класса `EventEmitter` для возможности инициации событий.
+Поля:
+- `_buttonCard: HTMLButtonElement` - кнопка оплаты картой
+- `_buttonCash: HTMLButtonElement` - кнопка оплаты при получении
+
+Методы:
+- `toggleCard(state: boolean = true)` - переключить класс кнопки оплаты картой
+- `toggleCash(state: boolean = true)` - переключить класс кнопки оплаты при получении
 
 Сеттеры:
 - `set payment(value: TPayment)` - выбрать кнопку способа платежа

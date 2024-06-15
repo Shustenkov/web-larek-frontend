@@ -1,17 +1,17 @@
 import './scss/styles.scss';
-import { EventEmitter } from './components/base/events';
+import { EventEmitter } from './components/base/Events';
 import { API_URL, CDN_URL } from './utils/constants';
 import { AppAPI } from './components/AppAPI';
 import { cloneTemplate, createElement, ensureElement } from './utils/utils';
 import { AppState } from './components/AppData';
 import { Page } from './components/Page';
 import { Modal } from './components/common/Modal';
-import { Cart } from './components/common/Cart';
+import { Cart } from './components/Cart';
 import { Order } from './components/Order';
 import { Contacts } from './components/Contacts';
 import { CartItem, CatalogItem, PreviewItem } from './components/Card';
 import { IContactsForm, IOrderForm, IProduct } from './types';
-import { Success } from './components/common/Success';
+import { Success } from './components/Success';
 
 const events = new EventEmitter();
 const api = new AppAPI(CDN_URL, API_URL);
@@ -41,6 +41,11 @@ const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 const cart = new Cart(cloneTemplate(cartTemplate), events);
 const order = new Order(cloneTemplate(orderTemplate), events);
 const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
+const success = new Success(cloneTemplate(successTemplate), {
+  onClick: () => {
+    modal.close();
+  }
+});
 
 // Дальше идет бизнес-логика
 // Поймали событие, сделали что нужно
@@ -69,17 +74,12 @@ events.on('order:submit', () => {
 events.on('contacts:submit', () => {
   api.orderProducts(appData.order)
     .then((result) => {
-      const success = new Success(cloneTemplate(successTemplate), {
-        onClick: () => {
-          modal.close();
-          appData.clearCart();
-        }
-      });
       modal.render({
         content: success.render({
           description: appData.order.total
         })
       });
+      appData.clearCart();
     })
     .catch(err => {
       console.error(err);
@@ -136,6 +136,7 @@ events.on('contacts:open', () => {
 // Открыть корзину
 events.on('cart:open', () => {
   modal.render({content: cart.render()});
+  events.emit('cart:changed');
 });
 
 // Изменения в корзине

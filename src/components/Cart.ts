@@ -1,6 +1,6 @@
-import { createElement, ensureElement, formatNumber } from '../../utils/utils';
-import { Component } from '../base/Component';
-import { EventEmitter } from '../base/events';
+import { createElement, ensureElement, formatNumber } from '../utils/utils';
+import { Component } from './base/Component';
+import { EventEmitter } from './base/Events';
 
 interface ICartView {
 	items: HTMLElement[];
@@ -27,7 +27,7 @@ export class Cart extends Component<ICartView> {
 	}
 
 	set valid(value: boolean) {
-		this._button.disabled = !value;
+		this.setDisabled(this._button, !value);
 	}
 
 	set items(items: HTMLElement[]) {

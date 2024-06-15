@@ -1,5 +1,5 @@
 import { IOrder, IOrderResult, IProduct } from "../types";
-import { Api, ApiListResponse } from "./base/api";
+import { Api, ApiListResponse } from "./base/Api";
 
 export interface IAppAPI {
   getProductList: () => Promise<IProduct[]>;

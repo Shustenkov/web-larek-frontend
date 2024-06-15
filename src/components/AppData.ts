@@ -60,8 +60,14 @@ export class AppState extends Model<IAppState> {
     if (!this.order.payment) {
       errors.payment = 'Необходимо выбрать способ оплаты'
     }
+    if (!this.order.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
+      errors.email = 'Некорректный email'
+    }
     if (!this.order.email) {
       errors.email = 'Необходимо указать email'
+    }
+    if (!this.order.phone.match(/^[+][0-9]{1,4}[\s-]?[(]?[0-9]{3}[)]?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/g)) {
+      errors.phone = 'Некорректный номер телефона'
     }
     if (!this.order.phone) {
       errors.phone = 'Необходимо указать телефон'

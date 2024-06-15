@@ -93,12 +93,10 @@ export class CatalogItem extends Card {
 		// Если есть класс категории - удаляем, затем добавляем новый
 		if (categoryClasses.get(value)) {
 			this._category.classList.forEach((element) => {
-				if (categoryValues.includes(element)) {
-					this._category.classList.remove(element);
-				}
+				this.toggleClass(this._category, element, !categoryValues.includes(element));
 			});
 
-			this._category.classList.add(categoryClasses.get(value));
+			this.toggleClass(this._category, categoryClasses.get(value), true);
 		}
 	}
 
@@ -135,7 +133,7 @@ export class PreviewItem extends CatalogItem {
 	}
 
 	set valid(value: boolean) {
-		this._button.disabled = !value;
+		this.setDisabled(this._button, !value);
 	}
 
 	set description(value: string) {
